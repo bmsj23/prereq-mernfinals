@@ -3,21 +3,21 @@ import Product from "../models/product.model.js";
 const getAllProducts = async (req, res) => {
   try {
     const products = await Product.find({});
-    res.status(200).json(products);
+    res.status(200).json({ success: true, message: "Products retrieved successfully", data: products });
     console.log(products);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
 const createProduct = async (req, res) => {
   try {
     const product = await Product.create(req.body);
-    res.status(201).json(product);
+    res.status(201).json({ success: true, message: "Product created successfully", product });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
@@ -30,11 +30,12 @@ const getProductById = async (req, res) => {
       return res.status(404).json({ message: "Product not found!" });
     }
 
-    res.status(200).json(product);
+    res.status(200).json({ success: true, message: "Product retrieved successfully", data: product });
     console.log(product);
+
   } catch (error) {
     console.error(error);
-    res.status(500).json({ success: false, qmessage: "Server Error" });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
@@ -49,11 +50,11 @@ const updateProduct = async (req, res) => {
         .json({ success: false, message: "Product not found!" });
     }
 
-    res.status(200).json(product);
+    res.status(200).json({ success: true, message: "Product updated successfully", data: product });
     console.log(product);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ success: false, message: "Server Error" });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
@@ -68,11 +69,11 @@ const deleteProduct = async (req, res) => {
         .json({ success: false, message: "Product not found!" });
     }
 
-    res.status(200).json(product.name + " deleted successfully.");
+    res.status(200).json({ success: true, message: product.name + " deleted successfully." });
     console.log(product);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ success: false, message: "Server Error" });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
